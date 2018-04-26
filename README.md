@@ -25,10 +25,10 @@ Assume you want to issue a new cert for `domain.com`.
 
     You'll see the output `configure finished successfully!` when it performs successfully.
 
-    It will create three directories.
+    It will create two directories and one file.
     - `/etc/cert/domain.com` stores all the certificate files
     - `/var/www/domain.com` hosts the challenge files needed by Let's Encrypt to verify you site
-    - `/etc/nginx/sites-enabled/domain.com` config files with ssl support for your site
+    - `/etc/nginx/sites-enabled/domain.com` nginx config file with ssl support for your site
 
 3. Config rules for your site
     
@@ -60,3 +60,18 @@ Assume you want to issue a new cert for `domain.com`.
 ```bash
 sudo ./renew.sh <domain>
 ```
+
+use crontab to auto renew
+
+```bash
+sudo crontab -e
+
+# Enter the following lines
+
+# Example line in your crontab (runs once per month)
+0 0 1 * * /path/to/renew.sh 2>> /var/log/renew.log
+```
+
+## Todo
+
+- [ ] Support multiple domains
