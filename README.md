@@ -69,7 +69,7 @@ sudo crontab -e
 # Enter the following lines
 
 # Example line in your crontab (runs once per month)
-0 0 1 * * /path/to/renew.sh 2>> /var/log/renew.log
+0 0 1 */2 * /path/to/renew.sh 2>> /var/log/renew.log
 ```
 
 ## Todo

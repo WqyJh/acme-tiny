@@ -52,9 +52,9 @@ server {
 	server_name $domain;
 
 	location /.well-known/acme-challenge/ {
-	        alias $acme_verify_path/;
-        	try_files \$uri =404;
-    	}
+	    alias $acme_verify_path/;
+        try_files \$uri =404;
+    }
 }
 
 EOF
@@ -91,6 +91,12 @@ sudo cp account.key domain.key  domain.csr signed_chain.crt $cert_path
 echo 'generating nginx config file...'
 
 cat << EOF | sudo tee -a $ngx_conf_file
+server {
+	listen 80;
+	server_name $domain;
+
+	return 301 https://\$server_name\$request_uri;
+}
 
 server {
 	listen 443 ssl;
@@ -104,6 +110,10 @@ server {
 	ssl_session_cache shared:SSL:50m;
 	ssl_prefer_server_ciphers on;
 
+    location /.well-known/acme-challenge/ {
+	    alias $acme_verify_path/;
+        try_files \$uri =404;
+    }
 }
 
 EOF
